@@ -1,0 +1,39 @@
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        
+        # Function to find the leftmost index of the target
+        def findLeft():
+            left, right = 0, len(nums) - 1
+            while left <= right:
+                mid = left + (right - left) // 2
+                if nums[mid] < target:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return left
+        
+        # Function to find the rightmost index of the target
+        def findRight():
+            left, right = 0, len(nums) - 1
+            while left <= right:
+                mid = left + (right - left) // 2
+                if nums[mid] <= target:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return right
+        
+        # Get the leftmost and rightmost indexes
+        left_index = findLeft()
+        right_index = findRight()
+        
+        # If the target is not in the array, return [-1, -1]
+        if left_index <= right_index:
+            return [left_index, right_index]
+        else:
+            return [-1, -1]
