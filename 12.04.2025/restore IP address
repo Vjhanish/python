@@ -1,0 +1,35 @@
+class Solution(object):
+    ans = []
+    def restoreIpAddresses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        Solution.ans = []
+        self.fun(s,0,3,"","")
+        return Solution.ans
+    
+    def fun(self, s, i, seg, cur, temp):
+
+        if len(temp) > 1 and temp[0] == "0":
+            return
+        
+        if len(temp) > 1 and int(temp) > 255:
+            return
+ 
+        if i == len(s) and seg == 0:
+            if len(temp) > 0:
+                cur += temp
+                Solution.ans.append(cur)
+            return
+
+        if i == len(s) or seg < 0:
+            return
+        
+        # case 1 - add it to same seg
+        self.fun(s,i+1,seg,cur,temp+s[i])
+
+        # case 2 - break the segment
+        if len(temp) > 0:
+            self.fun(s,i,seg-1,cur+temp+".","")
+
