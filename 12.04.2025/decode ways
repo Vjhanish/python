@@ -1,0 +1,16 @@
+class Solution(object):
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        dp = {len(s): 1}  # Base case: One way to decode an empty string
+
+        for i in range(len(s)-1, -1, -1):  # Reverse loop from last index to 0
+            if s[i] == "0":
+                dp[i] = 0  # If character is "0", no valid decoding
+            else:
+                dp[i] = dp[i+1]  # Single-digit decoding
+            if i + 1 < len(s) and 10 <= int(s[i] + s[i+1]) <= 26:
+                dp[i] += dp[i+2]  # Two-digit decoding
+        return dp[0]  # The answer is stored at dp[0]
