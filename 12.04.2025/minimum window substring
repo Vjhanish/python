@@ -1,0 +1,28 @@
+class Solution(object):
+    def minWindow(self, s, t):
+        def check(d):
+            for v in d.values(): #O(26)
+                if v>0:
+                    return False
+            return True
+        d = {} #O(26) space
+        for c in t: #O(n)
+            d[c]= d.get(c, 0)+1
+        l = r = 0
+        size = float('inf')
+        i = 0
+        for j in range(len(s)): #O(m)
+            if s[j] in d:
+                d[s[j]]-=1
+            if check(d):
+                while s[i] not in d or d[s[i]]<0:
+                    if s[i] in d:
+                        d[s[i]]+=1
+                    i+=1
+                if size> j-i+1:
+                    r = j+1
+                    l = i
+                    size = r -l
+                d[s[i]]+=1
+                i+=1
+        return s[l:r]
