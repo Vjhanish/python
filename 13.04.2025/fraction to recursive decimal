@@ -1,0 +1,43 @@
+class Solution(object):
+    def fractionToDecimal(self, numerator, denominator):
+        """
+        :type numerator: int
+        :type denominator: int
+        :rtype: str
+        """
+        num,dem=numerator, denominator
+        '''
+        a,b=num,dem
+        a,b=abs(a),abs(b)
+        a,b=max(a,b),min(a,b)
+        while b:
+            r=a%b
+            a=b
+            b=r
+        gcd=a
+        num/=gcd
+        dem/=gcd
+        '''
+        if num*dem<0:
+            return '-'+self.fractionToDecimal(abs(num),abs(dem))
+        ans=str(num/dem)
+        if num%dem:
+            ans+='.'
+            n,d=num,dem
+            quo=n/d
+            n-=quo*d
+            n*=10
+            nprevs=[]
+            while n%d:
+                nprevs.append(n)
+                quo=n/d
+                n-=quo*d
+                n*=10
+                ans+=str(quo)
+                if n in nprevs:
+                    i=len(nprevs)-nprevs.index(n)
+                    rep=ans[-i:]
+                    ans=ans[:-i]+'(%s)'%rep
+                    return ans
+            ans+=str(n/d)
+        return ans
