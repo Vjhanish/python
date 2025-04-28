@@ -1,0 +1,13 @@
+class Solution(object):
+    def shortestPalindrome(self, str):
+        """
+        :type str: str
+        :rtype: str
+        """
+        l = len(str)
+        revstr = str[::-1]
+        for i in xrange(l):
+            if str[:(l-i+1)/2] == revstr[i:(l+i+1)/2]:
+                return  revstr[:i] + str
+
+        return  revstr[:-1] + str
