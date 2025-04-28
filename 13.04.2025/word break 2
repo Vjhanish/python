@@ -1,0 +1,39 @@
+class TrieNode:
+    def __init__(self, c):
+        self.character = c
+        self.children = [None] * 26
+        self.is_end_of_word = False
+
+class Solution(object):
+    def __init__(self):
+        self.root = TrieNode('\0')
+    
+    def insert_word(self, root, word):
+        current_node = root
+        for c in word:
+            index = ord(c) - ord('a')
+            if current_node.children[index] is None:
+                current_node.children[index] = TrieNode(c)
+            current_node = current_node.children[index]
+        current_node.is_end_of_word = True
+    
+    def construct(self, root, s, start, ans, sentence):
+        if start >= len(s):
+            ans.append(sentence.strip())
+            return
+        curr = root
+        for i in range(start, len(s)):
+            j = ord(s[i]) - ord('a')
+            if curr.children[j] is None:
+                return
+            curr = curr.children[j]
+            sentence += s[i]
+            if curr.is_end_of_word:
+                self.construct(root, s, i + 1, ans, sentence + ' ')
+    
+    def wordBreak(self, s, wordDict):
+        for word in wordDict:
+            self.insert_word(self.root, word)
+        ans = []
+        self.construct(self.root, s, 0, ans, "")
+        return ans
