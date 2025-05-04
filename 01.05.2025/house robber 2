@@ -1,0 +1,21 @@
+class Solution:
+    def rob(self, nums):
+        n = len(nums)
+        if n == 1:
+            return nums[0]
+        
+        def exclude(start, end):
+            n = end - start + 1
+            if n == 1:
+                return nums[start]
+            
+            dp = [0] * n
+            dp[0] = nums[start]
+            dp[1] = max(nums[start], nums[start + 1])
+            
+            for i in range(2, n):
+                dp[i] = max(dp[i-1], nums[start + i] + dp[i-2])
+            
+            return dp[n-1]
+        
+        return max(exclude(0, n - 2), exclude(1, n - 1))
