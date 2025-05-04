@@ -1,0 +1,27 @@
+class Solution:
+    def heapify(self, nums, i):
+        while i > 0 and nums[i] > nums[(i - 1) // 2]:
+            nums[i], nums[(i - 1) // 2] = nums[(i - 1) // 2], nums[i]
+            i = (i - 1) // 2
+
+    def rev(self, nums, i, n):
+        while i * 2 + 1 < n:
+            largest = i
+            if i * 2 + 1 < n and nums[i] < nums[i * 2 + 1]:
+                largest = i * 2 + 1
+            if i * 2 + 2 < n and nums[largest] < nums[i * 2 + 2]:
+                largest = i * 2 + 2
+            if largest == i:
+                break
+            nums[i], nums[largest] = nums[largest], nums[i]
+            i = largest
+
+    def findKthLargest(self, nums, k):
+        n = len(nums)
+        for i in range(n):
+            self.heapify(nums, i)
+        for i in range(1, k):
+            nums[0], nums[n - 1] = nums[n - 1], nums[0]
+            n -= 1
+            self.rev(nums, 0, n)
+        return nums[0]
