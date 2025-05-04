@@ -1,0 +1,21 @@
+class Solution(object):
+    def ss(self,arr,t,n,curr,s,sum,ind):
+        if sum==t and len(curr)==n:
+            s.append(curr)
+            return
+        if sum>t:
+            return
+        for i in range(ind,len(arr)):
+            self.ss(arr,t,n,curr+[arr[i]],s,sum+arr[i],i+1)
+    def combinationSum3(self, k, n):
+        """
+        :type k: int
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        curr=[]
+        s=[]
+        arr=[1,2,3,4,5,6,7,8,9]
+        self.ss(arr,n,k,curr,s,0,0)
+        return s
+        
