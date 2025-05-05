@@ -1,0 +1,28 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def reorderList(self, head):
+        """
+        :type head: Optional[ListNode]
+        :rtype: None Do not return anything, modify head in-place instead.
+        """
+        # recursive solution
+        # this is giving memory limit exceeded
+        self.front = head
+        def solve(prev, curr):
+            if not curr:
+                return None
+
+            solve(curr, curr.next)
+
+            if self.front and self.front.next and self.front.next.next:
+                next = self.front.next
+                self.front.next = curr
+                curr.next = next
+                prev.next = None
+                
+                self.front = next
+        solve(None, head)
