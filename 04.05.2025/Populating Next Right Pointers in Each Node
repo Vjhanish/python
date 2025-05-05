@@ -1,0 +1,40 @@
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val=0, left=None, right=None, next=None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+
+class Solution(object):
+    def connect(self, root):
+        if(root == None):
+            return root
+        visited = [] 
+        queue = []
+        queue.append(root)
+        while queue:
+            node = queue.pop(0)
+            visited.append(node)
+            if node.left != None:
+                queue.append(node.left)
+                queue.append(node.right)
+        nodes = 1
+        j = 0
+        for i in range(0, len(visited)):
+            if j == nodes -1:
+                visited[i].next = None
+                nodes = nodes * 2
+                j = 0
+            else:
+                visited[i].next = visited[i + 1]
+                j = j + 1
+        return visited[0]
+            
+
+
+
+     
+        
