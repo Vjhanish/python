@@ -1,0 +1,29 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def detectCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+#to chech the starting point of the node will check it is cyclic or not
+        slow = fast = head
+
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if slow == fast:
+                break #if it is cyclic linked list exit from the loop
+        else:
+            return None #it is not cyclic so return none
+
+        slow = head #assign slow to head and keep the fast at the meeting point
+        while slow != fast: #if boot meets then that will be the starting point of the linked list
+            slow = slow.next #move each of them one step at a time
+            fast = fast.next
+        
+        return slow
