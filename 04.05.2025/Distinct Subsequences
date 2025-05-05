@@ -1,0 +1,34 @@
+class Solution(object):
+    def numDistinct(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: int
+        """
+
+        d = {}
+        
+        if len(s) < len(t):
+            return 0
+
+        def solveIt(currentString, i, j):
+            if currentString == t:
+                return 1
+            
+            if j >= len(t) or i >= len(s):
+                return 0
+
+            if (currentString, i, j) in d:
+                return d[(currentString, i, j)]
+
+            # there are three cases, if character matches skip or don't skip?? the third case is character doesn't matches.
+            if s[i] != t[j]:
+                d[(currentString, i, j)] = solveIt(currentString, i+1, j)
+            else:
+                skipChar = solveIt(currentString, i+1, j)
+                noSkipChar = solveIt(currentString + s[i], i+1, j+1)
+                d[(currentString, i, j)] = skipChar + noSkipChar
+            
+            return d[(currentString, i, j)]
+        
+        return solveIt("", 0, 0)
