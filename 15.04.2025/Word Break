@@ -1,0 +1,25 @@
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: bool
+        """
+
+        sl = len(s)
+        
+        positions = [0]
+
+        wd = sorted(wordDict, key=len)
+
+        while len(positions):
+            pos = positions.pop(0)
+            for word in wd:
+                wl = len(word)
+                if s[pos: pos+wl] == word:
+                    new_pos = pos + wl
+                    if new_pos == sl:
+                        return True
+                    if not new_pos in positions:
+                        positions.append(new_pos)
+        return False
