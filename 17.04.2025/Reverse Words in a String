@@ -1,0 +1,35 @@
+class Solution(object):
+    def reverseWords(self, s):
+        s = list(s)
+        space = ' ' 
+        word_list = []
+        word = []
+        for char in s:
+            if char == ' ' and word:
+                word_list.append(word)
+                word = []
+            if char == ' ':
+                continue
+            else:
+                word.append(char)
+        
+        if word:
+            word_list.append(word)
+        pre_list = []
+        for word in word_list:
+            s_word = ''.join(word)
+            pre_list.append(s_word)
+        
+        reverse = list(reversed(pre_list))
+
+        return ' '.join(reverse)  
+            
+            
+        return 
+            
+
+            
+
+
+
+        
