@@ -1,0 +1,23 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+q=[]
+class Solution(object):
+    def pt(self,root):
+        if root is None:
+            return 
+        q.append(root.val)
+        self.pt(root.left)
+        self.pt(root.right)
+        return q
+    def preorderTraversal(self, root):
+        global q
+        q=[]
+        if root is None:
+            return q
+        q=self.pt(root)
+        return q
