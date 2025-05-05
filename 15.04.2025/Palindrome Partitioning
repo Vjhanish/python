@@ -1,0 +1,42 @@
+class Solution(object):
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        def isPalindrome(string):
+            return string == string[::-1]
+
+        def backtracking(search_space, path, sol):
+            if not search_space:
+                # this technique is called backtracking because
+                # it has to reach the end of the search space
+                # then only it addeds it to tbe solution.
+                sol.append(path)
+                return
+
+            # iterate the string
+            for i in range(len(search_space)):
+                end = i + 1
+                # here we get the substring from start to end
+                # if our string is "aab"
+                # when i = 0
+                # search_space[:end] = "a"
+                # when i = 1
+                # search_space[:end] = "aa"
+
+                substring = search_space[:end]
+
+                if isPalindrome(substring):
+                    # if this substring is palindrome
+                    # then we recursively run backtracking.
+
+                    #print(substring, search_space[end:])
+
+                    backtracking(search_space[end:], path + [substring], sol)
+
+        sol = []
+        # the search space is the full string
+        backtracking(s, [], sol)
+
+        return sol
