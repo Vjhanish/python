@@ -1,0 +1,23 @@
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
+        visit = set()
+        q = deque()
+        q.append((beginWord, 1))
+        wordList = set(wordList)
+        while q:
+            word, m = q.popleft()
+            if word == endWord:
+                return m
+            for i in range(len(word)):
+                for ch in ascii_lowercase:
+                    temp = word[:i] + ch + word[i+1:]
+                    if temp in wordList and temp not in visit:
+                        q.append((temp, m+1))
+                        visit.add(temp)
+        return 0
