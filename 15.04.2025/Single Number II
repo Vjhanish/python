@@ -1,0 +1,46 @@
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # q1 q2 n | q1' q2' z
+        # 0 0 0 | 0 0 0
+        # 0 0 1 | 0 1 1
+        # 0 1 0 | 0 1 1
+        # 0 1 1 | 1 0 x
+        # 1 0 0 | 1 0 x
+        # 1 0 1 | 0 0 0
+        # 1 1 0 | x x x
+        # 1 1 1 | x x x
+
+        # q1| 0 1
+        # -------
+        # 00| 0 0 
+        # 01| 0 1
+        # 11| x x
+        # 10| 1 0
+        # => q1' = n*q2+(!n)*q1
+
+        # q2| 0 1
+        # -------
+        # 00| 0 1 
+        # 01| 1 0
+        # 11| x x
+        # 10| 0 0
+        # => q2' = (!n)*q2+n*(!q1)*(!q2)
+
+        # z| 0 1
+        # -------
+        # 0| 0 1 
+        # 1| x x
+        # => z = q2
+
+        q1, q2=0,0
+        n=len(nums)
+        for num in nums:
+            q1_prime=(num&q2)|((~num)&q1)
+            q2_prime=((~num)&q2)|(num&(~q1)&(~q2))
+            q1, q2 = q1_prime, q2_prime
+        return q2
+        
