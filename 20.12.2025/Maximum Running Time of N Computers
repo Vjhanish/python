@@ -1,0 +1,33 @@
+import numpy as np
+
+class Solution(object):
+    def maxRunTime(self, n, batteries):
+        """
+        :type n: int
+        :type batteries: List[int]
+        :rtype: int
+        """
+        max_time = 0
+        sum_time = 0
+        for battery in batteries:
+            sum_time += battery
+            if battery > max_time:
+                max_time = battery
+
+        thero_time = int(sum_time/n)
+        if max_time <= thero_time:
+            return thero_time
+
+
+        computers = heapq.nlargest(n, batteries)
+        remining_sum = sum_time - np.sum(np.array(computers))
+        total_time = computers[-1]
+        i = -1
+        factor = 1
+        while remining_sum > 0:
+            total_time += computers[i-1] - computers[i]
+            remining_sum -= (computers[i-1] - computers[i]) * factor
+            factor += 1
+            i -= 1
+        total_time += remining_sum/(factor-1)
+        return int(total_time)
