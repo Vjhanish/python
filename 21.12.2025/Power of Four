@@ -1,0 +1,12 @@
+class Solution(object):
+    def isPowerOfFour(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        a, b = 1, 4
+        while a <= n:
+            if a == n:
+                return True
+            a *= b
+        return False
