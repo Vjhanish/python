@@ -1,0 +1,62 @@
+from itertools import permutations
+from fractions import Fraction
+
+def ops(a,b,op):
+    if op == '+':
+        return a+b
+    elif op == '-':
+        return a-b
+    elif op == '*':
+        return a*b
+    else:
+        if b != 0:
+            return Fraction(a, b)
+        else:
+            pass
+
+class Solution(object):
+    def judgePoint24(self, cards):
+        """
+        :type cards: List[int]
+        :rtype: bool
+        """
+
+        op_s = ['+', '-', '*', '/']*3
+        op_permutations = []
+        op_permutations_l = permutations(op_s, 3)
+        for i in list(op_permutations_l):
+            if i not in op_permutations:
+                op_permutations.append(i)
+        cd_permutations = permutations(cards, 4)
+        for cd in list(cd_permutations):
+            for op in list(op_permutations):
+                if cd == (6,1,6,8) and op == ('/','-','/'):
+                    print(6/8)
+                    print(ops(cd[0],ops(cd[1],ops(cd[2],cd[3],op[2]),op[1]),op[0]))
+                try:
+                    if ops(ops(ops(cd[0],cd[1],op[0]), cd[2],op[1]),cd[3],op[2]) == 24:
+                        return True
+                except:
+                    continue
+                try:
+                    if ops(ops(cd[0],cd[1],op[0]), ops(cd[2],cd[3],op[2]), op[1]) == 24:
+                        return True
+                except:
+                    continue
+                try:
+                    if ops(ops(cd[0], ops(cd[1],cd[2],op[1]), op[0]), cd[3], op[2]) == 24:
+                        return True
+                except:
+                    continue
+                try:
+                    if ops(cd[0],ops(ops(cd[1],cd[2],op[1]),cd[3],op[2]),op[0]) == 24:
+                        return True
+                except:
+                    continue
+                try:
+                    if ops(cd[0],ops(cd[1],ops(cd[2],cd[3],op[2]),op[1]),op[0]) == 24:
+                        return True
+                except:
+                    continue
+                
+        return False
