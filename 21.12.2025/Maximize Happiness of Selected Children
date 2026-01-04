@@ -1,0 +1,27 @@
+class Solution(object):
+    def maximumHappinessSum(self, happiness, k):
+
+        #sort in reverse order
+        happiness.sort(reverse = True)
+
+        #set initial happines here ans variable to 0
+        ans = 0
+
+        #iterate through the sorted happines array k times to find top k elements
+
+        for i in range(k):
+
+            #here i denotes number of childen selected
+
+            #check if the happines of i th child is more than 0 
+            if i < happiness[i]:
+                #add the happiness to ans subtracting i since i children have alreaady been selected this childs happiness is reduced by i
+                ans += happiness[i] - i
+            
+            
+        return ans
+
+
+
+        
+        
