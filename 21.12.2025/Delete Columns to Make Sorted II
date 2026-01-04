@@ -1,0 +1,29 @@
+class Solution(object):
+    def minDeletionSize(self, strs):
+        lnth = len(strs[0])
+        total_len = len(strs)
+        res = 0
+        for i in range(lnth):
+            k = 1
+            f = 1
+            while k < total_len:
+                if strs[k] < strs[k - 1]:
+                    break
+                k += 1
+
+            if k < total_len:
+                res += 1
+                fwd = strs[k]
+                bck = strs[k - 1]
+                cut = -1
+                for idx in range(lnth):
+                    if bck[idx] > fwd[idx]:
+                        cut = idx
+                        break
+                for i in range(len(strs)):
+                    strs[i] = strs[i][:cut] + 'a' + strs[i][cut + 1:]
+            else:
+                break
+        
+        return res
+        
