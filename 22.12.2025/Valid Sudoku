@@ -1,0 +1,37 @@
+class Solution(object):
+    def isValidSudoku(self, board):
+        for i in range(len(board)):
+            res_set=set()
+            for j in range(len(board)):
+                num=board[i][j]
+                if num in res_set:
+                    return False
+                elif num != '.':
+                    res_set.add(num)
+        for i in range(len(board)):
+            res_set=set()
+            for j in range(len(board)):
+                num=board[j][i]
+                if num in res_set:
+                    return False
+                elif num != '.':
+                    res_set.add(num)
+        start=[(0,0),(0,3),(0,6),
+                (3,0),(3,3),(3,6),
+                (6,0),(6,3),(6,6)]
+
+        for i,j in start:
+            res_set=set()
+            for m in range(i,i+3):
+                for n in range(j,j+3):
+                    num=board[m][n]
+                    if num in res_set:
+                        return False
+                    elif num != '.':
+                        res_set.add(num)
+        return True
+
+
+            
+        
+        
