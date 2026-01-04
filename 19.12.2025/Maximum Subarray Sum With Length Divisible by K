@@ -1,0 +1,26 @@
+class Solution(object):
+    def maxSubarraySum(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+
+        pref = 0
+        # Har bir mod class uchun eng kichik prefix
+        min_pref = {i: float('inf') for i in range(k)}
+        min_pref[0] = 0  # prefix = 0, index = 0
+
+        ans = -10**30  # juda kichik boshlang‘ich qiymat
+
+        for i, num in enumerate(nums, 1):
+            pref += num
+            mod = i % k
+
+            # Shunga mos minimal prefix bilan farqni olamiz
+            ans = max(ans, pref - min_pref[mod])
+
+            # Mod class uchun minimal prefixni yangilash
+            min_pref[mod] = min(min_pref[mod], pref)
+
+        return ans
