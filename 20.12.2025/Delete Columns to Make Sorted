@@ -1,0 +1,23 @@
+class Solution(object):
+    def minDeletionSize(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: int
+        """
+        if len(strs)==2:
+            if sorted(strs)!=strs:
+                return 1
+            else :
+                return 0
+        d=0
+        for i in range(0,len(strs[0])):
+            res=[]
+            for j in range(0,len(strs)):
+                print(j,i)
+                res.append(strs[j][i])
+            # print(res,sorted(res))
+            if sorted(res)!=res:
+                    d=d+1
+        return d
+
+        
