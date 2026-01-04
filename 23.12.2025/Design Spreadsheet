@@ -1,0 +1,60 @@
+class Spreadsheet(object):
+
+    def __init__(self, rows):
+        """
+        :type rows: int
+        """
+        self.sheet = [[0 for _ in range(26)] for _ in range(rows)]
+        self.nums = "1234567890"
+
+    def _parse(self,cell):
+        if cell[0] in self.nums:
+            return int(cell)
+        else:
+            col = ord(cell[0]) - ord("A")
+            row = int(cell[1:])
+            return self.sheet[row-1][col]
+
+    def setCell(self, cell, value):
+        """
+        :type cell: str
+        :type value: int
+        :rtype: None
+        """
+        col = ord(cell[0])-ord("A")
+        row = int(cell[1:])
+        self.sheet[row-1][col] = value
+        
+    def resetCell(self, cell):
+        """
+        :type cell: str
+        :rtype: None
+        """
+        col = ord(cell[0])-ord("A")
+        row = int(cell[1:])
+        self.sheet[row-1][col] = 0
+
+    def getValue(self, formula):
+        """
+        :type formula: str
+        :rtype: int
+        """
+        formula = formula[1:]
+        terms = formula.split("+")
+        first = self._parse(terms[0])
+        second = self._parse(terms[1])
+        
+        return first +second
+
+
+            
+        
+            
+        
+
+
+# Your Spreadsheet object will be instantiated and called as such:
+# obj = Spreadsheet(rows)
+# obj.setCell(cell,value)
+# obj.resetCell(cell)
+# param_3 = obj.getValue(formula)
