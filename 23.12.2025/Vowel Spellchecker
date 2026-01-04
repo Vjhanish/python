@@ -1,0 +1,27 @@
+class Solution(object):
+    def spellchecker(self, wordlist, queries):
+        """
+        :type wordlist: List[str]
+        :type queries: List[str]
+        :rtype: List[str]
+        """
+        lookup=set(wordlist)
+        c_lookup={}
+        v_lookup={}
+        for word in wordlist:
+            l_word=word.lower()
+            c_lookup.setdefault(l_word,word)
+            v_lookup.setdefault(self.generalize(l_word),word)
+        res=[]
+        for word in queries:
+            l_word=word.lower()
+            if word in lookup:
+                res.append(word)
+            elif l_word in c_lookup:
+                res.append(c_lookup[l_word])
+            else:
+                res.append(v_lookup.get(self.generalize(l_word),""))
+        return res
+            
+    def generalize(self,word):
+        return "".join('*' if c in {"a","e","i","o","u"} else c for c in word)
