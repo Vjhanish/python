@@ -1,0 +1,17 @@
+class Solution(object):
+    def minimumBoxes(self, apple, capacity) : 
+        capacity.sort() 
+        box = 1 
+        summ = 0 
+        j = len(capacity)-1 
+        summ2 = capacity[j]
+        for i in range(len(apple)) :  
+            summ += apple[i]  
+            while summ > summ2 : 
+                j -= 1 
+                summ2 += capacity[j] 
+                box += 1 
+        return box
+
+                
+                
