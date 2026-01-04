@@ -1,0 +1,13 @@
+class Solution(object):
+    def maxFrequencyElements(self, nums):
+        c = Counter(nums)
+        maxfreq = 0
+        for i in c:
+            maxfreq = max(maxfreq,c[i])
+        count = 0
+        for i in c:
+            if c[i]==maxfreq:
+                count += 1
+        return count*maxfreq
+            
+        
