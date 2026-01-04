@@ -1,0 +1,15 @@
+class Solution(object):
+    def zeroFilledSubarray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        total = 0
+        thread = 0
+        for n in nums:
+            if n == 0:
+                thread += 1
+            else:
+                thread = 0
+            total += thread
+        return total
