@@ -1,0 +1,20 @@
+class Solution(object):
+    def validateCoupons(self, code, businessLine, isActive):
+        def isValidCode(code):
+            if len(code)<=0:
+                return False
+            for char in code:
+                if not char.isalnum() and char != "_":
+                    return False
+
+            return True
+        businessLines = set(["electronics", "grocery", "pharmacy", "restaurant"])
+        mp = defaultdict(str)
+        for i in range(0,len(code)):
+            if isValidCode(code[i]) and businessLine[i] in businessLines and isActive[i]:
+                if businessLine[i] in mp.keys():
+                    mp[businessLine[i]].append(code[i])
+                else:
+                    mp[businessLine[i]] = [code[i]]
+
+        return sorted(mp["electronics"])+sorted(mp["grocery"])+sorted(mp["pharmacy"])+sorted(mp["restaurant"])
