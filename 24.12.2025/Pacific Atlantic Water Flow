@@ -1,0 +1,63 @@
+class Solution:
+    def pacificAtlantic(self, heights):
+        # Handle the edge case where the input grid is empty.
+        if not heights:
+            return []
+
+        # Get the dimensions of the grid.
+        m, n = len(heights), len(heights[0])
+
+        # Create two boolean matrices to track reachability from each ocean.
+        # `pacificReachable[r][c]` is True if water from (r, c) can flow to the Pacific.
+        pacificReachable = [[False for _ in range(n)] for _ in range(m)]
+        # `atlanticReachable[r][c]` is True if water from (r, c) can flow to the Atlantic.
+        atlanticReachable = [[False for _ in range(n)] for _ in range(m)]
+
+        # Define the Depth-First Search (DFS) function.
+        def dfs(row, col, reachable):
+            # Mark the current cell as reachable.
+            reachable[row][col] = True
+            
+            # Define the four possible directions for movement (up, down, left, right).
+            directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+            
+            # Iterate through each direction to explore neighbors.
+            for dr, dc in directions:
+                newRow, newCol = row + dr, col + dc
+                
+                # Check if the new cell is within the grid boundaries.
+                if (0 <= newRow < m and 0 <= newCol < n and
+                    # Check if the new cell has not been visited yet for this ocean.
+                    not reachable[newRow][newCol] and
+                    # Check if the new cell's height is greater than or equal to the current cell's height.
+                    # This simulates water "flowing uphill" from the ocean to the island.
+                    heights[newRow][newCol] >= heights[row][col]):
+                    
+                    # Recursively call DFS for the valid neighbor.
+                    dfs(newRow, newCol, reachable)
+
+        # Start DFS from all border cells touching the Pacific Ocean.
+        # Pacific borders are the top row (row 0) and the left column (col 0).
+        for i in range(m):
+            # DFS for the left column.
+            dfs(i, 0, pacificReachable)
+            # DFS for the right column (Atlantic).
+            # This is run here for efficiency, combining loops, but conceptually it is for the Atlantic.
+            dfs(i, n - 1, atlanticReachable)
+
+        for j in range(n):
+            # DFS for the top row.
+            dfs(0, j, pacificReachable)
+            # DFS for the bottom row (Atlantic).
+            dfs(m - 1, j, atlanticReachable)
+
+        # Find the intersection of cells reachable from both oceans.
+        result = []
+        for i in range(m):
+            for j in range(n):
+                # A cell is part of the solution if it can reach both the Pacific and Atlantic oceans.
+                if pacificReachable[i][j] and atlanticReachable[i][j]:
+                    result.append([i, j])
+
+        # Return the list of coordinates.
+        return result
