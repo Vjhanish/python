@@ -1,0 +1,32 @@
+class Solution(object):
+    def bestClosingTime(self, customers):
+        """
+        :type customers: str
+        :rtype: int
+        """
+        maxx=0
+        i=0
+        d=0
+
+        for index,c in enumerate(customers):
+            if c == "Y":
+                i=i+1
+                if i > maxx:
+                    d=index+1
+                elif i == maxx:                 
+                    d=min(d,index+1)
+                maxx=max(i,maxx)
+            if  c == "N":
+                i=i-1
+                if i < 0:
+                    d=min(d,index+1)
+                    
+
+        return d
+
+                    
+
+                
+
+
+        
