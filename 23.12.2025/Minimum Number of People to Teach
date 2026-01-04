@@ -1,0 +1,23 @@
+class Solution(object):
+    def minimumTeachings(self, n, languages, friendships):
+        user_lang = [set(lang) for lang in languages]
+        
+
+        problem= set()
+        for u, v in friendships:
+            u -= 1 
+            v -= 1
+            if user_lang[u].intersection(user_lang[v]):
+                continue
+            problem.add(u)
+            problem.add(v)
+        
+        teach_count = [0] * (n + 1) 
+        for lang in range(1, n + 1):
+            count = 0
+            for user in problem:
+                if lang not in user_lang[user]:
+                    count += 1
+            teach_count[lang] = count
+        
+        return min(teach_count[1:]) if problem else 0
