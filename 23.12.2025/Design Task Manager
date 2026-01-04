@@ -1,0 +1,73 @@
+class TaskManager(object):
+
+    def __init__(self, tasks):
+        """
+        :type tasks: List[List[int]]
+        """
+        self.heap=[]
+        self.task_priority_map = {}
+        self.task_user_map = {}
+        for userId,taskId,priority in tasks:
+            self.task_user_map[taskId] = userId
+            self.task_priority_map[taskId] = priority
+            heapq.heappush(self.heap,(-priority,-taskId,userId))
+
+    def add(self, userId, taskId, priority):
+        """
+        :type userId: int
+        :type taskId: int
+        :type priority: int
+        :rtype: None
+        """
+        self.task_user_map[taskId] = userId
+        heapq.heappush(self.heap,(-priority,-taskId,userId))
+        self.task_priority_map[taskId] = priority
+        
+
+    def edit(self, taskId, newPriority):
+        """
+        :type taskId: int
+        :type newPriority: int
+        :rtype: None
+        """
+        self.task_priority_map[taskId] = newPriority
+        heapq.heappush(self.heap,(-newPriority,-taskId,self.task_user_map[taskId]))
+
+        
+
+    def rmv(self, taskId):
+        """
+        :type taskId: int
+        :rtype: None
+        """
+        if taskId not in self.task_priority_map: return
+        self.task_priority_map.pop(taskId, None)
+        self.task_user_map.pop(taskId, None)
+        
+
+    def execTop(self):
+        """
+        :rtype: int
+        """
+        while len(self.heap)>0:
+            neg_priority,neg_taskId,userId = self.heap[0]
+            if (-neg_taskId not in self.task_priority_map or 
+            -neg_priority != self.task_priority_map[-neg_taskId] or
+            self.task_user_map[-neg_taskId ]!=userId):
+                heapq.heappop(self.heap)
+            else:
+                break
+        if len(self.heap)<=0:
+            return -1
+        else:
+            _,neg_taskId,userId = heapq.heappop(self.heap)
+            self.rmv(-neg_taskId)
+            return userId
+        
+
+# Your TaskManager object will be instantiated and called as such:
+# obj = TaskManager(tasks)
+# obj.add(userId,taskId,priority)
+# obj.edit(taskId,newPriority)
+# obj.rmv(taskId)
+# param_4 = obj.execTop()
