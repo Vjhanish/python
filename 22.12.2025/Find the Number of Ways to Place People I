@@ -1,0 +1,17 @@
+class Solution(object):
+    def numberOfPairs(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: int
+        """
+        points = sorted(points, key=lambda x: (-x[0], x[1]))
+        res = 0
+        for x in range(len(points) - 1):
+            maxY = 50
+            for y in range(x + 1, len(points)):
+                if points[y][1] >= points[x][1] and points[y][0] <= points[x][0] and points[y][1] <= maxY:
+                    maxY = points[y][1] - 1
+                    res += 1
+
+        return res
+        
