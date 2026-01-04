@@ -1,0 +1,15 @@
+class Solution(object):
+    def triangularSum(self, nums):
+        if len(nums) == 1:
+            return nums[0] % 10
+
+        while len(nums) != 1:
+            last_element = nums.pop(0)
+            length = len(nums)
+            for i in range(0, length):
+                now = nums.pop(0)
+                r = (now + last_element) % 10
+                nums.append(r)
+                last_element = now
+
+        return nums[0] % 10
