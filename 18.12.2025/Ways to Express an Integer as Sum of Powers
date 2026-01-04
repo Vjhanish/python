@@ -1,0 +1,16 @@
+class Solution(object):
+    def numberOfWays(self, n, x):        
+        mod = 10 ** 9 + 7
+        cache = {}
+        def num_way(i, n):
+            if (i, n) in cache:
+                return cache[(i, n)]
+            if n == 0:
+                return 1
+            val = i ** x
+            if val > n:
+                return 0
+            res = num_way(i+1, n) + num_way(i+1, n-val)
+            cache[(i, n)] = res
+            return res
+        return num_way(1, n) % mod
