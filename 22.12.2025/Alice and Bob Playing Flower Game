@@ -1,0 +1,21 @@
+class Solution(object):
+    def flowerGame(self, n, m):
+        """
+        :type n: int
+        :type m: int
+        :rtype: int
+        """
+        evenN = n // 2
+        evenM = m // 2
+        if n % 2 == 1:
+            oddN = (n // 2) + 1
+        else:
+            oddN = n // 2
+        if m % 2 == 1:
+            oddM = (m // 2) + 1
+        else:
+            oddM = m // 2
+        return evenN * oddM + evenM * oddN
+
+            
+        
