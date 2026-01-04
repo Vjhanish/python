@@ -1,0 +1,20 @@
+import heapq
+class Solution(object):
+    def swimInWater(self, grid):
+        t=0
+        minh=[(grid[0][0],0,0)]
+        visit=set()
+        row=len(grid)
+        cols=len(grid[0])
+        dir=[(0,1),(0,-1),(1,0),(-1,0)]
+        while minh:
+            elev,i,j=heapq.heappop(minh)
+            t=max(elev,t)
+            if i==row-1 and j==cols-1:
+                return t
+            if (i,j) in visit:
+                continue
+            visit.add((i,j))
+            for dr,dc in dir:
+                if dr+i<row and dc+j<cols and dr+i>=0 and dc+j>=0 and (dr+i,dc+j) not in visit:
+                    heapq.heappush(minh,(grid[dr+i][dc+j],dr+i,dc+j))
