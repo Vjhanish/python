@@ -1,0 +1,33 @@
+class Solution(object):
+    def maxKDivisibleComponents(self, n, edges, values, k):
+        from collections import defaultdict
+        import sys
+        sys.setrecursionlimit(10**7)
+
+        graph = defaultdict(list)
+        for a, b in edges:
+            graph[a].append(b)
+            graph[b].append(a)
+
+        visited = [False] * n
+        self.components = 0
+
+        def dfs(node):
+            visited[node] = True
+            total = values[node] % k
+
+            for nei in graph[node]:
+                if not visited[nei]:
+                    rem = dfs(nei)
+                    if rem == 0:
+                        self.components += 1
+                    else:
+                        total = (total + rem) % k
+
+            return total
+
+        remainder = dfs(0)
+        if remainder == 0:
+            self.components += 1
+
+        return self.components
