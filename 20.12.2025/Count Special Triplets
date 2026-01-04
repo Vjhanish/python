@@ -1,0 +1,20 @@
+class Solution(object):
+    def specialTriplets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        d2 = {}
+        d3 = {}
+        ans = 0
+        MOD = 10**9 +7
+        for num in nums:
+            if num in d3:
+                ans += d3[num] % MOD
+
+            if num in d2:
+                d3[num*2] = d3.get(num*2, 0) + d2[num]
+
+            if num % 2 == 0:
+                d2[num/2] = d2.get(num/2, 0) +1
+        return ans % MOD
