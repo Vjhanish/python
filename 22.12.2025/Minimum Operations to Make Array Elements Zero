@@ -1,0 +1,21 @@
+class Solution(object):
+    def minOperations(self, queries):
+        """
+        :type queries: List[List[int]]
+        :rtype: int
+        """
+        def helper(num):
+            cnt = 0
+            operation = 1
+            base = 1
+            while(base<=num):
+                cnt += operation * (min(base*4-1,num)-base+1)
+                operation+=1
+                base *=4
+            return cnt
+        
+            
+        ans =0
+        for a,b in queries:
+            ans += math.ceil(float(helper(b)-helper(a-1))/2)
+        return int(ans)
