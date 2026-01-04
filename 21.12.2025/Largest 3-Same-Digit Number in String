@@ -1,0 +1,8 @@
+class Solution(object):
+    def largestGoodInteger(self, num):
+        check=['999','888','777','666','555','444','333','222','111','000']
+        for char in check:
+            if char in num:
+                return char
+        return ""
+        
