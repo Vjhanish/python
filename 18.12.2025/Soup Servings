@@ -1,0 +1,56 @@
+import math
+
+class Solution(object):
+    def soupServings(self, n):
+        # If n is very large, probability that A runs out first is almost 1.
+        # This is a shortcut to save time for big numbers.
+        if n > 5000:
+            return 1.0
+
+        # Convert n mL into "chunks" of 25 mL.
+        # All serving sizes are multiples of 25 mL, so this makes the numbers smaller.
+        # Example: n = 50 -> m = ceil(50/25) = 2 chunks
+        m = int(math.ceil(n / 25.0))
+
+        # memo will remember results we already calculated
+        # Key: (a, b) = "a chunks of A left, b chunks of B left"
+        # Value: probability that A empties first (plus 0.5 if both empty same turn)
+        memo = {}
+
+        # dp(a, b) calculates the probability when A has 'a' chunks and B has 'b' chunks
+        def dp(a, b):
+            # If we already solved this situation, return the saved answer
+            if (a, b) in memo:
+                return memo[(a, b)]
+
+            # --- Base cases ---
+            # Both soups are empty at the same time
+            if a <= 0 and b <= 0:
+                return 0.5
+            # A is empty first
+            if a <= 0:
+                return 1.0
+            # B is empty first
+            if b <= 0:
+                return 0.0
+
+            # --- Recursive case ---
+            # Each of the 4 serving options is equally likely (0.25 probability)
+            # We subtract chunks from A and B according to the serving sizes:
+            # (100,0) -> 4,0
+            # (75,25) -> 3,1
+            # (50,50) -> 2,2
+            # (25,75) -> 1,3
+            result = 0.25 * (
+                dp(a - 4, b - 0) +
+                dp(a - 3, b - 1) +
+                dp(a - 2, b - 2) +
+                dp(a - 1, b - 3)
+            )
+
+            # Save the result so we don’t have to calculate it again
+            memo[(a, b)] = result
+            return result
+
+        # Start the calculation with both A and B full
+        return dp(m, m)
