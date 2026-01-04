@@ -1,0 +1,20 @@
+from collections import Counter
+
+class Solution(object):
+    def findXSum(self, nums, k, x):
+        n = len(nums)
+        result = []
+
+        for i in range(n - k + 1):
+            subarray = nums[i:i + k]
+            count = Counter(subarray)
+            sorted_elements = sorted(count.items(), key=lambda item: (-item[1], -item[0]))
+            top_x_elements = sorted_elements[:x]
+
+            x_sum = 0
+            for element, frequency in top_x_elements:
+                x_sum += element * frequency
+
+            result.append(x_sum)
+        
+        return result
