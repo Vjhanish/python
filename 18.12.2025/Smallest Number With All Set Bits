@@ -1,0 +1,11 @@
+class Solution(object):
+    def smallestNumber(self, n):
+        j=0
+        for i in range(20):
+            if 2**i > n:
+                j+=2**i
+                break
+        return j-1
+
+
+        
