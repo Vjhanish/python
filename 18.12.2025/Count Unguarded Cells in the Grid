@@ -1,0 +1,43 @@
+class Solution(object):
+    def fillgrid(self, r,c):
+        for dx,dy in self.directions:
+            x,y=r,c
+            while 0<=x+dx<self.m and 0<=y+dy<self.n and self.grid[x+dx][y+dy]!=-1:
+                x+=dx
+                y+=dy
+                self.grid[x][y] = -2
+                
+
+
+    def countUnguarded(self, m, n, guards, walls):
+        """
+        :type m: int
+        :type n: int
+        :type guards: List[List[int]]
+        :type walls: List[List[int]]
+        :rtype: int
+        """
+        self.m=m
+        self.n=n
+        self.grid = [[0 for _ in range(n)] for _ in range(m)]
+        self.directions =[(1,0),(-1,0),(0,1),(0,-1)]
+        for x,y in guards:
+            self.grid[x][y] = -1
+        for x,y in walls:
+            self.grid[x][y] = -1
+        # print(self.grid)
+        for x,y in guards:
+            self.fillgrid(x,y)
+        # print(self.grid)
+        theSum = 0
+        for i in range(m):
+            for j in range(n):
+                if self.grid[i][j]==0:
+                    theSum +=1
+        return theSum
+
+
+        
+        
+
+        
