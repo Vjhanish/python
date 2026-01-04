@@ -1,0 +1,71 @@
+from collections import deque
+
+class Router(object):
+    def __init__(self, memoryLimit):
+        self.memoryLimit = memoryLimit
+        self.queue = deque([])
+        self.map = {}
+
+    def addPacket(self, source, destination, timestamp):
+        if destination not in self.map:
+            self.map[destination] = [[source, timestamp]]
+        else:
+            # check for duplicate
+            index = len(self.map[destination]) - 1
+            while self.map[destination][index][1] == timestamp and index >= 0:
+                if self.map[destination][index][0] == source:
+                    return False
+                index -= 1
+
+            self.map[destination].append([source, timestamp])
+
+        if len(self.queue) == self.memoryLimit:
+            self.forwardPacket()
+
+        self.queue.append([source, destination, timestamp])
+        
+        return True
+
+    def forwardPacket(self):
+        if len(self.queue) == 0:
+            return []
+
+        packet = self.queue.popleft()
+
+        self.map[packet[1]].pop(0)
+        if len(self.map[packet[1]]) == 0:
+            del self.map[packet[1]]
+
+        return packet
+        
+    def getCount(self, destination, startTime, endTime):
+        def binarySearch(array, target, isMin):
+            left = 0
+            right = len(array) - 1
+
+            while left <= right:
+                mid = (left + right) // 2
+
+                if right - left == 1:
+                    if isMin:
+                        return left if array[left][1] >= target else right if array[right][1] >= target else -1
+                    else:
+                        return right if array[right][1] <= target else left if array[left][1] <= target else -1
+
+                if (array[mid][1] < target and isMin) or (array[mid][1] <= target and not isMin):
+                    left = mid
+                else:
+                    right = mid
+
+        if destination not in self.map:
+            return 0
+        
+        destList = self.map[destination]
+
+        if len(destList) == 1:
+            return int(startTime <= destList[0][1] <= endTime)
+
+        start = binarySearch(destList, startTime, True)
+        end = binarySearch(destList, endTime, False)
+
+        return (end - start + 1) if start != -1 else 0
