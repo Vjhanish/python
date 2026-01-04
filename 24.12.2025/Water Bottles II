@@ -1,0 +1,16 @@
+class Solution(object):
+    def solve(self, empty, exchange):
+        if(empty < exchange):
+            return 0
+        newEmpty = empty - exchange + 1
+        newExchange = exchange + 1
+        return 1 + self.solve(newEmpty, newExchange)
+    def maxBottlesDrunk(self, numBottles, numExchange):
+        return numBottles + self.solve(numBottles, numExchange)
+        
+        """
+        :type numBottles: int
+        :type numExchange: int
+        :rtype: int
+        """
+        
