@@ -1,0 +1,16 @@
+class Solution:
+    def findMaxForm(self, strs, m, n):
+        table = [[0] * (n+1) for _ in range(m+1)]
+
+        for s in strs:
+            c0 = s.count('0')
+            c1 = s.count('1')
+
+            if c0 > m or c1 > n:
+                continue
+
+            for i in reversed(range(c0 , m + 1)):
+                for j in reversed(range(c1, n + 1)):
+                    table[i][j] = max(table[i][j], table[i - c0][j - c1] + 1)
+
+        return table[m][n]
