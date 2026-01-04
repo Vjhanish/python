@@ -1,0 +1,19 @@
+from collections import defaultdict
+class Solution(object):
+    def sortMatrix(self, grid):
+        diagonal_columns = defaultdict(list)
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                diagonal_columns[j-i].append(grid[i][j])
+        
+        for key in diagonal_columns.keys():
+            if key <= 0:
+                diagonal_columns[key].sort()
+            else:
+                diagonal_columns[key].sort(reverse=True)
+        
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                grid[i][j] = diagonal_columns[j-i].pop()
+
+        return grid
