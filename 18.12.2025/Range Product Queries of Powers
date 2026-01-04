@@ -1,0 +1,22 @@
+class Solution(object):
+    MOD = 10**9 + 7
+    
+    def prepare_powers(self, n = int):
+        bin_n = bin(n)[2:]
+        powers = list()
+        for i in range(len(bin_n)):
+            x = (pow(2,i)*int(bin_n[len(bin_n) - i - 1])) 
+            if not x :
+                continue
+            powers.append(x)
+        return powers
+
+    def productQueries(self, n, queries):
+        answers = list()
+        powers = self.prepare_powers(n)
+        for slic in queries:
+            counter = 1
+            for j in range(slic[0],slic[1]+1):
+                counter*=powers[j] 
+            answers.append(counter % self.MOD)
+        return answers
